@@ -441,6 +441,7 @@ def load_data_models(fname, random_seed, workers, batch_size, pname='logp', retu
             features = scaler.fit_transform(features.reshape(-1,1))
             print("Scaled dock scores")
             pickle.dump(scaler, open(scale, 'wb'))
+            return
         train_features = features[train_idx]
         test_features = features[test_idx]
 

@@ -3,10 +3,9 @@ import numpy as np
 import torch
 from rdkit import Chem
 from torch.utils.data import Dataset
-import pickle
 from features.generateFeatures import smiles_to_image, smile_to_mordred
 from torchvision import transforms
-
+import pickle
 from rdkit import Chem
 from rdkit import RDConfig
 import os
