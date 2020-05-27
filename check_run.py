@@ -3,8 +3,8 @@ import torch
 import argparse
 import os
 from os import path
+from sklearn import metrics
 from metrics import trackers
-import sklearn.metrics
 def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', type=str, help='folder')
@@ -17,7 +17,7 @@ if __name__ == '__main__':
     model_exists = path.exists(args.f + "/model.pt")
     if not model_exists:
         print(args.f + " FAILED TRAINING\n")
-    preds_exist = path.exists(args.f+"/out_train.npy") and path.exists(args.f + "/out_test.npy")
+    preds_exist = path.exists(args.f + "/out_test.npy")
     if not preds_exist:
         print(args.f + " FAILED INFERENCE\n")
     if model_exists:

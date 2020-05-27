@@ -44,16 +44,16 @@ def drop_indices(df):
 
 if __name__ == '__main__':
     args = get_args()
-    df_r = pd.read_csv(args.r)
+    df_r = pd.read_csv(args.r, sep='\t')
     images = np.load(args.i)
-    smiles = pd.DataFrame(df_r.smiles)
+    smiles = pd.DataFrame(df_r.canonical_smile)
 
     # drop invalid smiles rows 
     d = drop_indices(smiles)
     df_r = df_r.drop(d)
-    for target_name in df_r.columns[1:]:
+    for target_name in ['NSUN6']: #df_r.columns[2:]:
         print(target_name)
-        target_df = df_r[['smiles', target_name]]
+        target_df = df_r[['canonical_smile', target_name]]
         print(target_df.shape)
 
         # find na locations, drop dock scores
@@ -72,7 +72,7 @@ if __name__ == '__main__':
         assert(smiles.shape[0] == dock.shape[0])
 
         # now save the files
-        save_path = "data_v3/DIR.ml." + target_name + ".images"
+        save_path = "data_v5/DIR.ml." + target_name + ".images"
         os.mkdir(save_path)
         np.save(save_path + "/ml."+ target_name+ ".reg", dock.to_numpy())
         smiles.to_csv(save_path + "/ml."+target_name+".smi", index=False)
