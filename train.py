@@ -4,6 +4,8 @@ import multiprocessing
 import numpy as np
 import pandas as pd
 import torch
+import h5py
+from os import path
 from apex import amp
 from rdkit import Chem
 from sklearn import metrics
@@ -424,7 +426,11 @@ def load_data_models(fname, random_seed, workers, batch_size, pname='logp', retu
     else:
         mask = False
     if precomputed_images is not None:
-        precomputed_images = np.load(precomputed_images)
+        ext = path.splitext(precomputed_images)[1]
+        if ext == ".hdf5" or ext == ".h5":
+            precomputed_images = h5py.File(precomputed_images, "r")['images']
+        else:    
+            precomputed_images = np.load(precomputed_images)
         train_images = precomputed_images[train_idx]
         test_images = precomputed_images[test_idx]
         precomputed_images = True
